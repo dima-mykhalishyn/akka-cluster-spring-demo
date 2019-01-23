@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: akka-cluster-spring-demo
+server:
+  port: 8080
+
+akka.cluster.init.delay.seconds: 30
+management.endpoint.health.show-details: ALWAYS

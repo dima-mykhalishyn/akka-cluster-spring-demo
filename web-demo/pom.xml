@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>akka.cluster.spring</groupId>
+        <artifactId>demo-project</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>web-demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>web-demo</name>
+    <description>Demo project for Spring Boot with Akka Cluster</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--**********************AKKA*************************-->
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-slf4j_2.12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-cluster_2.12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-cluster-tools_2.12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.TanUkkii007</groupId>
+            <artifactId>akka-cluster-custom-downing_2.12</artifactId>
+            <version>0.0.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-testkit_2.12</artifactId>
+        </dependency>
+        <!--**********************AKKA*************************-->
+
+        <dependency>
+            <groupId>akka.cluster.spring</groupId>
+            <artifactId>common-config</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>tanukkii007</id>
+            <url>https://dl.bintray.com/tanukkii007/maven</url>
+        </repository>
+    </repositories>
+
+</project>

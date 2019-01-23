@@ -1,0 +1,11 @@
+
+# curl -d '{"tasks": 10}' -H "Content-Type: application/json" -X POST http://localhost:8080/work
+
+POST http://localhost:8080/work
+Content-Type: application/json
+
+{"tasks": 100}
+
+###
+
+GET http://localhost:8080/actuator/health
