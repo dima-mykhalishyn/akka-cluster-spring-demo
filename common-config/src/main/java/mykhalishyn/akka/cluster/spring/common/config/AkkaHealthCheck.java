@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Akka Health Check
+ * Akka Health Check - custom implementation of {@link HealthIndicator} for SpringBoot Actuator
  *
  * @author dmihalishin@gmail.com
  * @see HealthIndicator

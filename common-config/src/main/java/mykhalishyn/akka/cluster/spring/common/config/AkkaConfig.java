@@ -16,6 +16,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
+ * TODO: explanation of each bean is missing
  * Akka configuration for Spring
  *
  * @author dmihalishin@gmail.com

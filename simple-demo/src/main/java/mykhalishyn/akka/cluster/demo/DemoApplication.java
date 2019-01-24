@@ -31,12 +31,11 @@ public class DemoApplication implements CommandLineRunner {
 
     @Override
     public void run(final String... args) {
-        LoggerFactory.getLogger(DemoApplication.class).info("Application started");
-        actorSystem.scheduler().schedule(Duration.ZERO,
-                Duration.ofSeconds(1),
-                pingActor,
-                "Tick",
-                actorSystem.dispatcher(), null);
+        LoggerFactory.getLogger(DemoApplication.class).info("Application started...");
+
+        actorSystem
+                .scheduler()
+                .schedule(Duration.ZERO, Duration.ofSeconds(1), pingActor, "Tick", actorSystem.dispatcher(), null);
     }
 }
 

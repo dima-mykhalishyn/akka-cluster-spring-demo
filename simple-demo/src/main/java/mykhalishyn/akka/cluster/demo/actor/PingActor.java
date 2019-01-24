@@ -42,7 +42,6 @@ public class PingActor extends AbstractLoggingActor {
 
     private void sendPingRequest() {
         final String message = "Ping from " + self().path().uid();
-        context().system().actorSelection(pongActorPath)
-                .tell(new PingRequest(message), self());
+        context().system().actorSelection(pongActorPath).tell(new PingRequest(message), self());
     }
 }

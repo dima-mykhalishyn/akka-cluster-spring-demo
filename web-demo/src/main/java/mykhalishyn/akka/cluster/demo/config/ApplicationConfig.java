@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * TODO: add missing explanation
  * Application Configuration
  *
  * @author dmihalishin@gmail.com
@@ -29,20 +30,22 @@ public class ApplicationConfig {
 
     @Bean("workerActorRef")
     public ActorRef workerActor(final ActorSystem system) {
-        return system.actorOf(FromConfig.getInstance().props(
-                SpringExtension.SPRING_EXTENSION_PROVIDER.get(system).props("workerActor")
+        return system.actorOf(
+                FromConfig.getInstance()
+                        .props(SpringExtension.SPRING_EXTENSION_PROVIDER.get(system)
+                                .props("workerActor")
         ), "workerActor");
     }
 
     @Bean("workRouterRef")
     public ActorRef workRouter(final ActorSystem system) {
-        final Iterable<String> routeesPaths = Collections.singletonList(WorkerActor.ACTOR_NAME);
+        final Iterable<String> routesPaths = Collections.singletonList(WorkerActor.ACTOR_NAME);
         final Set<String> useRoles = new HashSet<>(Collections.singletonList("compute"));
         return system.actorOf(
                 new ClusterRouterGroup(
-                        new RoundRobinGroup(routeesPaths),
-                        new ClusterRouterGroupSettings(1000, routeesPaths, true, useRoles)
-                ).props(), "workRouter");
+                        new RoundRobinGroup(routesPaths),
+                        new ClusterRouterGroupSettings(1000, routesPaths, true, useRoles))
+                        .props(), "workRouter");
     }
 
 }

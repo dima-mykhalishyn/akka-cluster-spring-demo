@@ -29,6 +29,7 @@ import java.util.stream.IntStream;
 
 /**
  * Router Configuration
+ * TODO: add missing explanation
  *
  * @author dmihalishin@gmail.com
  */
@@ -43,15 +44,20 @@ public class RouterConfig {
 
     @Bean
     public RouterFunction<ServerResponse> route(@Qualifier("workRouterRef") final ActorRef workerActor) {
-        return RouterFunctions.route(RequestPredicates.POST(WORK_ENDPOINT)
-                        .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+        return RouterFunctions.route(
+                RequestPredicates.POST(WORK_ENDPOINT).and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(WorkRequest.class)
                         .map(workRequest -> {
-                            final List<Mono<String>> tasks = IntStream.range(0, workRequest.getTasks()).boxed().map(index -> {
-                                final Future<Object> future = Patterns.ask(workerActor, new Task(index), TIMEOUT);
-                                final CompletionStage<String> stage = FutureConverters.toJava(future).thenApply(Object::toString);
-                                return Mono.fromCompletionStage(stage).onErrorReturn("Task #" + index + " failed");
-                            }).collect(Collectors.toList());
+                            final List<Mono<String>> tasks = IntStream.range(0, workRequest.getTasks())
+                                    .boxed()
+                                    .map(index -> {
+
+                                        final Future<Object> future = Patterns.ask(workerActor, new Task(index), TIMEOUT);
+                                        final CompletionStage<String> stage = FutureConverters.toJava(future).thenApply(Object::toString);
+                                        return Mono.fromCompletionStage(stage).onErrorReturn("Task #" + index + " failed");
+                                    })
+                                    .collect(Collectors.toList());
+
                             return Flux.concat(tasks).reduceWith(WorkResponse::new, (response, status) -> {
                                 response.getStatuses().add(status);
                                 return response;
