@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * TODO: add missing explanation
  * Application Configuration
  *
  * @author dmihalishin@gmail.com
@@ -28,15 +27,28 @@ import java.util.Set;
 @ComponentScan("mykhalishyn.akka.cluster.spring.common.config")
 public class ApplicationConfig {
 
+    /**
+     * Method that initialize the Worker Actor from Spring Bean
+     *
+     * @param system the actor system. Cannot be {@code null}
+     * @return reference to worker actor
+     */
     @Bean("workerActorRef")
     public ActorRef workerActor(final ActorSystem system) {
         return system.actorOf(
                 FromConfig.getInstance()
                         .props(SpringExtension.SPRING_EXTENSION_PROVIDER.get(system)
                                 .props("workerActor")
-        ), "workerActor");
+                        ), "workerActor");
     }
 
+    /**
+     * Method that initialize the Route for Worker Actors.
+     * This will allow to put actors to the Cluster
+     *
+     * @param system the actor system. Cannot be {@code null}
+     * @return reference to worker route
+     */
     @Bean("workRouterRef")
     public ActorRef workRouter(final ActorSystem system) {
         final Iterable<String> routesPaths = Collections.singletonList(WorkerActor.ACTOR_NAME);

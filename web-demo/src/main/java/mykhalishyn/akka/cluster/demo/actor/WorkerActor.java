@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import java.util.stream.LongStream;
 
 /**
- * Worker Actor
+ * Worker Actor that calculate Factorial of 10000, to simulate the work load
  *
  * @author dmihalishin@gmail.com
  * @see AbstractLoggingActor

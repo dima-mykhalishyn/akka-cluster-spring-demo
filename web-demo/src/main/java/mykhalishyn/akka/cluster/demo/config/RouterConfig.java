@@ -29,7 +29,6 @@ import java.util.stream.IntStream;
 
 /**
  * Router Configuration
- * TODO: add missing explanation
  *
  * @author dmihalishin@gmail.com
  */
@@ -42,22 +41,31 @@ public class RouterConfig {
 
     private static final Timeout TIMEOUT = Timeout.durationToTimeout(DURATION);
 
+    /**
+     * Spring 2 Routes, this is `Controller` layer
+     * @param workerActor the worker actor reference. Cannot be {@code null}
+     * @return application routes
+     */
     @Bean
     public RouterFunction<ServerResponse> route(@Qualifier("workRouterRef") final ActorRef workerActor) {
         return RouterFunctions.route(
+                // route initialization
                 RequestPredicates.POST(WORK_ENDPOINT).and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(WorkRequest.class)
                         .map(workRequest -> {
+                            // convert request to amount of tasks to execute
                             final List<Mono<String>> tasks = IntStream.range(0, workRequest.getTasks())
                                     .boxed()
                                     .map(index -> {
-
+                                        // ask worker actor to do specific task
                                         final Future<Object> future = Patterns.ask(workerActor, new Task(index), TIMEOUT);
+                                        // convert scala Future to java CompletionStage
                                         final CompletionStage<String> stage = FutureConverters.toJava(future).thenApply(Object::toString);
                                         return Mono.fromCompletionStage(stage).onErrorReturn("Task #" + index + " failed");
                                     })
                                     .collect(Collectors.toList());
 
+                            // concatenate all tasks and reduce them to worker response
                             return Flux.concat(tasks).reduceWith(WorkResponse::new, (response, status) -> {
                                 response.getStatuses().add(status);
                                 return response;

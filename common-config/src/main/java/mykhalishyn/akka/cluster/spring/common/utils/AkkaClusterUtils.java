@@ -25,7 +25,7 @@ public class AkkaClusterUtils {
 
     private static final String SEED_NODES_PROGRAMMATICALLY = "SEED_NODES_PROGRAMMATICALLY";
 
-    private static final Pattern SEED_PATTERN = Pattern.compile("^(.*)://z(.*)@(.*):(.*)$");
+    private static final Pattern SEED_PATTERN = Pattern.compile("^(.*)://(.*)@(.*):(.*)$");
 
     public static void joinToCluster(final Cluster cluster,
                                      final Map<String, String> environments) {

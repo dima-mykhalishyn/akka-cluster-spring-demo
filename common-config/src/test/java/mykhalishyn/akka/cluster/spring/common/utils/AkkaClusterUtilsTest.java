@@ -17,6 +17,8 @@ import java.util.Map;
  * @author dmihalishin@gmail.com
  */
 public class AkkaClusterUtilsTest extends AkkaClusterUtils {
+
+    @SuppressWarnings("unchecked")
     @Test
     public void joinToCluster() {
         ArgumentCaptor<List> argument = ArgumentCaptor.forClass(List.class);
