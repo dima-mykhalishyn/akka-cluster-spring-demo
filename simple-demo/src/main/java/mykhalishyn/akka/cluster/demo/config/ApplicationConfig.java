@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Application Config
+ * TODO: explanation is missing
  *
  * @author dmihalishin@gmail.com
  */

@@ -7,6 +7,8 @@ import akka.actor.Props;
 import org.springframework.context.ApplicationContext;
 
 /**
+ * TODO: put proper JavaDoc explaining why is this class needed. Important for Open Source projects.
+ *
  * Spring Extension for Akka
  *
  * @author dmihalishin@gmail.com

@@ -29,18 +29,27 @@ public class AkkaClusterUtils {
 
     public static void joinToCluster(final Cluster cluster,
                                      final Map<String, String> environments) {
+        //index of seed nodes starts from 0
         int index = 0;
         String seed;
+
         final List<Address> availableSeeds = new ArrayList<>();
+
+        // identifying seed nodes and finish while loop of there are no more seed hosts mentioned in configuration
         while ((seed = environments.get(SEED_NODES_PROGRAMMATICALLY + "." + index)) != null) {
+
             final Matcher matcher = SEED_PATTERN.matcher(seed);
+
             Validate.isTrue(matcher.matches(), "Akka seed config require full path to other akka host");
+
+            //verify if the seed host can be resolved
             if (hostIsResolved(matcher.group(3))) {
                 final Address address = new Address(matcher.group(1), matcher.group(2), matcher.group(3), Integer.valueOf(matcher.group(4)));
                 availableSeeds.add(address);
             }
             index++;
         }
+
         if (availableSeeds.isEmpty())
             LOGGER.warn("NO seeds available, cannot join to the cluster. Working in standalone mode");
         else {
@@ -48,6 +57,7 @@ public class AkkaClusterUtils {
         }
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private static boolean hostIsResolved(final String host) {
         try {
             InetAddress.getByName(host);

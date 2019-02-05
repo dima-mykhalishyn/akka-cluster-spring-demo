@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import java.util.stream.LongStream;
 
 /**
- * Worker Actor
+ * Worker Actor that calculate Factorial of 10000, to simulate the work load
  *
  * @author dmihalishin@gmail.com
  * @see AbstractLoggingActor
@@ -32,7 +32,8 @@ public class WorkerActor extends AbstractLoggingActor {
     private void processWorkRequest(final Task request) {
         log().info("Processing Task #" + request.getIndex());
         final String host = System.getenv("HOSTNAME");
-        final BigInteger factorial = LongStream.range(2, 10001).boxed()
+        final BigInteger factorial = LongStream.range(2, 10001)
+                .boxed()
                 .map(BigInteger::valueOf)
                 .reduce(BigInteger.ONE, BigInteger::multiply);
         log().debug("Factorial of 10000 is " + factorial);

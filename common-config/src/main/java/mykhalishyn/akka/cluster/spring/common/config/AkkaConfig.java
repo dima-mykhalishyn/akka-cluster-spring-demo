@@ -24,6 +24,12 @@ import java.util.Date;
 @Profile("!test")
 public class AkkaConfig {
 
+    /**
+     * Initialize {@link ActorSystem}
+     *
+     * @param applicationContext spring application context. Cannot be {@code null}
+     * @return initialized actor system
+     */
     @Bean
     public ActorSystem actorSystem(final ApplicationContext applicationContext) {
         final ActorSystem system = ActorSystem.create("AkkaClusterSystem", ConfigFactory.load());
@@ -31,6 +37,11 @@ public class AkkaConfig {
         return system;
     }
 
+    /**
+     * Initialize {@link ThreadPoolTaskScheduler}
+     *
+     * @return initialized {@code ThreadPoolTaskScheduler}
+     */
     @Bean
     public ThreadPoolTaskScheduler scheduler() {
         final ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
@@ -39,6 +50,14 @@ public class AkkaConfig {
         return scheduler;
     }
 
+    /**
+     * Initialize akka Cluster
+     *
+     * @param system        the actor system. Cannot be {@code null}
+     * @param delaySeconds  delay for joining to the cluster programmatically. Cannot be {@code null}
+     * @param taskScheduler the task scheduler. Cannot be {@code null}
+     * @return the initialized akka cluster
+     */
     @Bean("akkaCluster")
     public Cluster cluster(final ActorSystem system,
                            @Value("${akka.cluster.init.delay.seconds: 300}") final Integer delaySeconds,

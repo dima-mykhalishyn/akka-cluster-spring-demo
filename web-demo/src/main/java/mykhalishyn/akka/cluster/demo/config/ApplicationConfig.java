@@ -27,22 +27,37 @@ import java.util.Set;
 @ComponentScan("mykhalishyn.akka.cluster.spring.common.config")
 public class ApplicationConfig {
 
+    /**
+     * Method that initialize the Worker Actor from Spring Bean
+     *
+     * @param system the actor system. Cannot be {@code null}
+     * @return reference to worker actor
+     */
     @Bean("workerActorRef")
     public ActorRef workerActor(final ActorSystem system) {
-        return system.actorOf(FromConfig.getInstance().props(
-                SpringExtension.SPRING_EXTENSION_PROVIDER.get(system).props("workerActor")
-        ), "workerActor");
+        return system.actorOf(
+                FromConfig.getInstance()
+                        .props(SpringExtension.SPRING_EXTENSION_PROVIDER.get(system)
+                                .props("workerActor")
+                        ), "workerActor");
     }
 
+    /**
+     * Method that initialize the Route for Worker Actors.
+     * This will allow to put actors to the Cluster
+     *
+     * @param system the actor system. Cannot be {@code null}
+     * @return reference to worker route
+     */
     @Bean("workRouterRef")
     public ActorRef workRouter(final ActorSystem system) {
-        final Iterable<String> routeesPaths = Collections.singletonList(WorkerActor.ACTOR_NAME);
+        final Iterable<String> routesPaths = Collections.singletonList(WorkerActor.ACTOR_NAME);
         final Set<String> useRoles = new HashSet<>(Collections.singletonList("compute"));
         return system.actorOf(
                 new ClusterRouterGroup(
-                        new RoundRobinGroup(routeesPaths),
-                        new ClusterRouterGroupSettings(1000, routeesPaths, true, useRoles)
-                ).props(), "workRouter");
+                        new RoundRobinGroup(routesPaths),
+                        new ClusterRouterGroupSettings(1000, routesPaths, true, useRoles))
+                        .props(), "workRouter");
     }
 
 }
