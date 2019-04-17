@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package simple.demo;
+
+option java_package = "mykhalishyn.akka.cluster.demo.actor.proto";
+option java_outer_classname = "MessageProto";
+
+message PingRequest {
+    string message = 1;
+}
+
+message PongResponse {
+    string message = 1;
+}

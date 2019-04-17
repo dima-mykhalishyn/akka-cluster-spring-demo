@@ -1,7 +1,7 @@
 package mykhalishyn.akka.cluster.demo.actor;
 
 import akka.actor.AbstractLoggingActor;
-import mykhalishyn.akka.cluster.demo.actor.dto.Task;
+import mykhalishyn.akka.cluster.demo.actor.MessageProto.Task;
 import mykhalishyn.akka.cluster.spring.common.config.Actor;
 import org.apache.commons.lang3.StringUtils;
 

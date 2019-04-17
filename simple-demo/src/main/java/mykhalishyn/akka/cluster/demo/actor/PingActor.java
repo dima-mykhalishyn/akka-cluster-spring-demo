@@ -1,8 +1,8 @@
 package mykhalishyn.akka.cluster.demo.actor;
 
 import akka.actor.AbstractLoggingActor;
-import mykhalishyn.akka.cluster.demo.actor.dto.PingRequest;
-import mykhalishyn.akka.cluster.demo.actor.dto.PongResponse;
+import mykhalishyn.akka.cluster.demo.actor.SimpleDemoProtos.PingRequest;
+import mykhalishyn.akka.cluster.demo.actor.SimpleDemoProtos.PongResponse;
 import mykhalishyn.akka.cluster.spring.common.config.Actor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +42,7 @@ public class PingActor extends AbstractLoggingActor {
 
     private void sendPingRequest() {
         final String message = "Ping from " + self().path().uid();
-        context().system().actorSelection(pongActorPath).tell(new PingRequest(message), self());
+        final PingRequest request = PingRequest.newBuilder().setMessage(message).build();
+        context().system().actorSelection(pongActorPath).tell(request, self());
     }
 }

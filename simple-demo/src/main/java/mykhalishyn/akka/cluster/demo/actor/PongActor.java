@@ -1,8 +1,8 @@
 package mykhalishyn.akka.cluster.demo.actor;
 
 import akka.actor.AbstractLoggingActor;
-import mykhalishyn.akka.cluster.demo.actor.dto.PingRequest;
-import mykhalishyn.akka.cluster.demo.actor.dto.PongResponse;
+import mykhalishyn.akka.cluster.demo.actor.SimpleDemoProtos.PingRequest;
+import mykhalishyn.akka.cluster.demo.actor.SimpleDemoProtos.PongResponse;
 import org.apache.commons.lang3.RandomUtils;
 
 /**
@@ -31,6 +31,7 @@ public class PongActor extends AbstractLoggingActor {
             throw new RuntimeException(e);
         }
         final String message = "Pong from " + self().path().uid();
-        sender().tell(new PongResponse(message), self());
+        final PongResponse pongResponse = PongResponse.newBuilder().setMessage(message).build();
+        sender().tell(pongResponse, self());
     }
 }

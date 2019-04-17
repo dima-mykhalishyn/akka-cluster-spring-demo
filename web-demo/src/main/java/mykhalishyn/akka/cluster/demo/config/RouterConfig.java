@@ -3,7 +3,7 @@ package mykhalishyn.akka.cluster.demo.config;
 import akka.actor.ActorRef;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
-import mykhalishyn.akka.cluster.demo.actor.dto.Task;
+import mykhalishyn.akka.cluster.demo.actor.MessageProto.Task;
 import mykhalishyn.akka.cluster.demo.dto.WorkRequest;
 import mykhalishyn.akka.cluster.demo.dto.WorkResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -58,7 +58,7 @@ public class RouterConfig {
                                     .boxed()
                                     .map(index -> {
                                         // ask worker actor to do specific task
-                                        final Future<Object> future = Patterns.ask(workerActor, new Task(index), TIMEOUT);
+                                        final Future<Object> future = Patterns.ask(workerActor, Task.newBuilder().setIndex(index).build(), TIMEOUT);
                                         // convert scala Future to java CompletionStage
                                         final CompletionStage<String> stage = FutureConverters.toJava(future).thenApply(Object::toString);
                                         return Mono.fromCompletionStage(stage).onErrorReturn("Task #" + index + " failed");

@@ -3,8 +3,8 @@ package mykhalishyn.akka.cluster.demo.actor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.testkit.javadsl.TestKit;
-import mykhalishyn.akka.cluster.demo.actor.dto.PingRequest;
-import mykhalishyn.akka.cluster.demo.actor.dto.PongResponse;
+import mykhalishyn.akka.cluster.demo.actor.SimpleDemoProtos.PingRequest;
+import mykhalishyn.akka.cluster.demo.actor.SimpleDemoProtos.PongResponse;
 import org.junit.Test;
 
 import java.time.Duration;
@@ -25,7 +25,7 @@ public class PongActorTest extends AbstractActorTest {
 
             // the run() method needs to finish within 5 seconds
             within(Duration.ofSeconds(5), () -> {
-                subject.tell(new PingRequest("Go go go"), getRef());
+                subject.tell(PingRequest.newBuilder().setMessage("Go go go").build(), getRef());
                 expectMsgClass(PongResponse.class);
                 expectNoMessage();
                 return null;

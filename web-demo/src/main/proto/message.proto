@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package simple.demo;
+
+option java_package = "mykhalishyn.akka.cluster.demo.actor";
+option java_outer_classname = "MessageProto";
+
+message Task {
+    int32 index = 1;
+}

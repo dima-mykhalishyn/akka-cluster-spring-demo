@@ -4,7 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.testkit.TestProbe;
 import akka.testkit.javadsl.TestKit;
-import mykhalishyn.akka.cluster.demo.actor.dto.PingRequest;
+import mykhalishyn.akka.cluster.demo.actor.SimpleDemoProtos.PingRequest;
 import org.junit.Test;
 
 import java.time.Duration;
